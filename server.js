@@ -35,7 +35,7 @@ apiRoutes(app);
 app.use(function(req, res, next) {
   res.status(404)
     .type('text')
-    .send('Not Found');
+    .send('404 - Not Found');
 });
 
 const port = process.env.PORT || 3000;
