@@ -8,9 +8,7 @@ module.exports = function (app) {
   let convertHandler = new ConvertHandler();
 
   app.get('/api/convert',(req, res) => {
-    console.error("feck");
-    console.log("hello there", req.query.input);
-
+  
     const input = req.query.input;
 
     if(!input){
@@ -19,15 +17,36 @@ module.exports = function (app) {
 
     let num = convertHandler.getNum(input);
     let unit = convertHandler.getUnit(input);
+  //console.log("API unit: ",unit)
+
+    if((num == "invalid number")&&(unit == "invalid unit")){
+      res.send("invalid number and unit")
+      return;
+    }
+    else if(num == "invalid number"){
+      res.send(num);
+      return;
+    }
+    else if(unit == "invalid unit"){
+      res.send(unit);
+      return;
+    }
     let return_unit = convertHandler.getReturnUnit(unit);
+
     let input_unit = convertHandler.spellOutUnit(unit);
     let output_unit = convertHandler.spellOutUnit(return_unit);
+    
+    let output_num = convertHandler.convert(num, unit);
+    let output_string = convertHandler.getString(num,input_unit,output_num,output_unit);
+   
 
-    console.log("rep is:", num);
-    console.log("unit is:", unit);
-    console.log("Has only on slash for fraction", return_unit);
-
-    res.send("Conversion Request: "+num+" Unit: "+ unit+" Return value: "+return_unit+" string: "+num+" "+ input_unit+" converts to 4.98895 "+output_unit);
+    res.json({
+      "initNum": num,
+      "initUnit": unit,
+      "returnNum": output_num,
+      "returnUnit": return_unit,
+      "string": output_string
+    })
   });
 
  
