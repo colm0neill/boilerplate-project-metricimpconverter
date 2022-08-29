@@ -17,15 +17,17 @@ module.exports = function (app) {
       res.send("No input provided");
     }
 
-    let rep = convertHandler.getNum(input);
+    let num = convertHandler.getNum(input);
     let unit = convertHandler.getUnit(input);
-    let unit_type = convertHandler.getReturnUnit(rep);
+    let return_unit = convertHandler.getReturnUnit(unit);
+    let input_unit = convertHandler.spellOutUnit(unit);
+    let output_unit = convertHandler.spellOutUnit(return_unit);
 
-    console.log("rep is:", rep);
+    console.log("rep is:", num);
     console.log("unit is:", unit);
-    console.log("Has only on slash for fraction", unit_type);
+    console.log("Has only on slash for fraction", return_unit);
 
-    res.send("Conversion Request: "+rep+" Unit: "+ unit+" Is fraction: "+unit_type);
+    res.send("Conversion Request: "+num+" Unit: "+ unit+" Return value: "+return_unit+" string: "+num+" "+ input_unit+" converts to 4.98895 "+output_unit);
   });
 
  
